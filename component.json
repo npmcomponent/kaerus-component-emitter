@@ -1,7 +1,7 @@
 {
   "name": "emitter",
   "version": "0.0.1",
-  "repo": "kaerus/component/emitter",
+  "repo": "kaerus-component/emitter",
   "description": "Event emitter",
   "scripts" : ["index.js"]
 }
