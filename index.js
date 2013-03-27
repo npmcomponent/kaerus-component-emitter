@@ -88,54 +88,52 @@ Emitter.prototype.off = function(event,handler) {
     return this;
 }
 
+function notify(emitter,handler,args){
+    
+    if(Array.isArray(handler)) {
+        for(var i = 0, l = handler.length; i < l; i++) {
+            if(typeof handler[i] === 'function' && 
+                handler[i].apply(emitter,args) === false ) {
+                    return false;
+            }
+        }
+    } else {
+        if(typeof handler === 'function' &&
+            handler.apply(emitter,args) === false) {
+                return false;
+        }
+    }    
+
+    return true;
+}
+
 Emitter.prototype.emit = function(event) {
     var handlers = this._events[event];
 
     if(!handlers) return;   
 
     var args = Array.prototype.slice.call(arguments,1),
-        handler, before, after = [], done = false;
+        handler, before, after;
 
     if(!Array.isArray(handlers)) {
-        handlers.apply(null,args);
+        notify(this,handlers,args);
+    } else {
+        /* todo: optimize away filter.map before/after */
+        before = handlers.filter(function(f){return f._before})
+            .map(function(m){ return m._before; });
+        console.log("before", before);
 
-        return this;
+        if(!notify(this,before,args))
+            return this;
+
+        if(!notify(this,handlers,args))
+            return this;
+
+        after = handlers.filter(function(f){return f._after})
+            .map(function(m){ return m._after; });
+
+        notify(this,after,args);        
     }
-
-    before = handlers.filter(function(f){return f._before});
-
-    before.forEach(function(o){
-        if(!done) {
-            if(o._before.apply(null,args) === false ) {
-                done = true;
-            }
-        }
-    });
-
-    if(done) return this;
-
-    for (var i = 0, l = handlers.length; i < l; i++) {
-        handler = handlers[i];
-        if(typeof handler === 'function' ) {
-            /* stop propagation on false */
-            if( handler.apply(null,args) === false ) {
-                done = true;
-                break;
-            }
-        } else if(typeof handler === 'object' && handler._after) {
-            after[after.length] = handler._after;
-        } /* silently ignore invalid handlers */   
-    }
-
-    if(done) return this;
-
-    after.forEach(function(handler){
-        if(!done) {
-            if(handler.apply(null,args) === false ) {
-                done = true;
-            }
-        }  
-    });  
 
     return this;
 }

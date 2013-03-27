@@ -1,6 +1,6 @@
 {
-  "name": "emitterjs",
-  "version": "0.1.0",
+  "name": "emitter",
+  "version": "0.1.2",
   "main": "index.js",
   "description": "Event emitter library",
   "keywords": [
