@@ -121,7 +121,6 @@ Emitter.prototype.emit = function(event) {
         /* todo: optimize away filter.map before/after */
         before = handlers.filter(function(f){return f._before})
             .map(function(m){ return m._before; });
-        console.log("before", before);
 
         if(!notify(this,before,args))
             return this;
