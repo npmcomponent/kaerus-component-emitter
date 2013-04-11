@@ -59,6 +59,27 @@ describe('Emitter', function(){
   })
 
   describe('.before and .after handlers', function(){
+
+    it('before',function(){
+      var emitter = new Emitter;
+      var calls = [];
+
+      function one(){ calls.push('one') }
+      emitter.before('foo',one);
+      emitter.emit('foo');
+      calls.should.eql(['one']);
+    })
+
+    it('after',function(){
+      var emitter = new Emitter;
+      var calls = [];
+
+      function one(){ calls.push('one') }
+      emitter.after('foo',one);
+      emitter.emit('foo');
+      calls.should.eql(['one']);
+    })
+
     it('before handlers first', function(){
       var emitter = new Emitter;
       var calls = [];

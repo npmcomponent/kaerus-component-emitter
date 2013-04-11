@@ -25,7 +25,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/kaerus-component/emitter.js"
+    "url": "git://github.com/kaerus-component/emitter"
   },
   "scripts": {
     "test":"make test"
