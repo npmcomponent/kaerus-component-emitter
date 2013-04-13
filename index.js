@@ -75,16 +75,11 @@ Emitter.prototype.off = function(event,handler) {
 }
 
 Emitter.prototype.emit = function(event) {
-    var events = this._events[event], handler;
-
-    if(!events) return this;   
-
-    var args = Array.prototype.slice.call(arguments,1);
+    var args = Array.prototype.slice.call(arguments,1),
+        events = this.listeners(event);
 
     for(var i = 0, l = events.length; i < l; i++){
-        handler = events[i];
-        if(handler !== before && handler !== after && 
-            handler.apply(this,args) === false) break;
+        if(events[i].apply(this,args) === false) break;
     }        
 
     return this;
