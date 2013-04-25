@@ -1,29 +1,4 @@
  // Emitter /////////////////////////////////////////////////////////////////////////////
-
-/*
-callback StreamInit = void (StreamResolver resolver);
-callback AnyCallback = any (optional any value);
-typedef (EventStream or Future or Iterable) StreamLike;
-typedef (string or number or boolean or AnyCallback) updateFilter;
-
-[Constructor(StreamInit init)]
-interface EventStream {
- EventStream listen(optional AnyCallback? listenCB = null, optional
-AnyCallback? completeCB = null, optional AnyCallback? rejectCB =
-null);
- Future complete(optional AnyCallback cb);
- Future catch(optional AnyCallback cb);
- Future next(optional updateFilter, optional anyCallback cb);
-}
-
-interface EventStreamResolver {
- void push(optional any value);
- void complete(optional any value);
- void continueWith(optional any value);
- void reject(optional any value);
-};
-*/
-
 function Emitter(obj) {
     /* Emitter mixin */
     if(obj) {
