@@ -20,7 +20,7 @@ describe('Custom', function(){
 
 describe('Emitter', function(){
   describe('.on(event, fn)', function(){
-    it('should add listeners', function(){
+    it('should add listener', function(){
       var emitter = new Emitter;
       var calls = [];
 
@@ -37,6 +37,19 @@ describe('Emitter', function(){
       emitter.emit('foo', 2);
 
       calls.should.eql([ 'one', 1, 'two', 1, 'one', 2, 'two', 2 ]);
+    })
+
+    it('should add listener on multiple events',function(){
+      var emitter = new Emitter;
+      var calls = [];
+      emitter.on('foo bar',function(val){
+        calls.push(val);
+      });
+
+      emitter.emit('foo','one');
+      emitter.emit('bar','two');
+
+      calls.should.eql(['one','two']);
     })
   })
 
@@ -267,4 +280,5 @@ describe('Emitter(obj)', function(){
     proto.on('something', done);
     proto.emit('something');
   })
+
 })
