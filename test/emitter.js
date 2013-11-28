@@ -38,19 +38,6 @@ describe('Emitter', function(){
 
       calls.should.eql([ 'one', 1, 'two', 1, 'one', 2, 'two', 2 ]);
     })
-
-    it('should add listener on multiple events',function(){
-      var emitter = new Emitter;
-      var calls = [];
-      emitter.on('foo bar',function(val){
-        calls.push(val);
-      });
-
-      emitter.emit('foo','one');
-      emitter.emit('bar','two');
-
-      calls.should.eql(['one','two']);
-    })
   })
 
   describe('.once(event, fn)', function(){

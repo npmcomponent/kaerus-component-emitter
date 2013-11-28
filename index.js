@@ -32,16 +32,6 @@ function before(){};
 function after(){};
 
 Emitter.prototype.on = function(event,handler,first) {
-    event = event.split(' ');
-    
-    if(event.length > 1) {
-        for(var i=0; event[i]; i++) {
-            this.on(event[i],handler,first);
-        }    
-
-        return this;
-    } else event = event[0];
-
     var events = this._events[event];
 
     if(!events) events = this._events[event] = [before,after];
