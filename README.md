@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/kaerus-component/emitter.png)](https://travis-ci.org/kaerus-component/emitter.js)
+[![Build Status](https://travis-ci.org/kaerus-component/emitter.png)](https://travis-ci.org/kaerus-component/emitter)
 
 Emitter
 =======
