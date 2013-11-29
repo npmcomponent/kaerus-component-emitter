@@ -57,7 +57,7 @@ Emitter.prototype.off = function(event,handler) {
         this._events = {};
     }    
 
-    if(this._events[event]) {
+    if(this._events[event]) {
         if(!handler) {
             delete this._events[event];
         } else {
