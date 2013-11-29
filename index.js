@@ -36,10 +36,10 @@ Emitter.prototype.on = function(event,handler,first) {
 
     if(!events) events = this._events[event] = [before,after];
 
-    if(first === undefined) events.splice(events.indexOf(after),0,handler);
-    else if(first === true) events.splice(events.indexOf(before),0,handler);
-    else events[events.length] = handler;     
-
+    if(first === true) events.splice(events.indexOf(before),0,handler);
+    else if(first === undefined) events.splice(events.indexOf(after),0,handler);
+    else events[events.length] = handler;
+   
     return this;
 }
 
@@ -52,23 +52,20 @@ Emitter.prototype.after = function(event,handler) {
 }
 
 Emitter.prototype.off = function(event,handler) {
-
+    
     if(!arguments.length) {
         this._events = {};
-        return this;
     }    
 
-    var events = this._events[event];
-
-    if(!events) return this;
-
-    if(!handler) {
-        delete this._events[event];
-    } else {
-        this._events[event] = this._events[event].filter(function(f) {
-            return (f._of || f) !== handler;
-        });
-    } 
+    if(this._events[event]) {
+        if(!handler) {
+            delete this._events[event];
+        } else {
+            this._events[event] = this._events[event].filter(function(f) {
+                return (f._of || f) !== handler;
+            });
+        }
+    }
 
     return this;
 }
