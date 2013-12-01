@@ -71,11 +71,21 @@ Emitter.prototype.off = function(event,handler) {
 }
 
 Emitter.prototype.emit = function(event) {
-    var args = Array.prototype.slice.call(arguments,1),
-        events = this.listeners(event);
+    var context, handler, args;
 
-    for(var i = 0, l = events.length; i < l; i++){
-        if(events[i].apply(this,args) === false) break;
+    if(typeof event === 'object') {
+        context = event;
+        event = arguments[1];
+    }
+
+    args = Array.prototype.slice.call(arguments, (context ? 2 : 1));
+    
+    handler = this.listeners(event);
+
+    context = context ? context : this;
+
+    for(var i = 0, l = handler.length; i < l; i++){
+        if(handler[i].apply(context,args) === false) break;
     }        
 
     return this;

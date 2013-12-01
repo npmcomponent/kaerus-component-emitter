@@ -20,7 +20,7 @@ describe('Custom', function(){
 
 describe('Emitter', function(){
   describe('.on(event, fn)', function(){
-    it('should add listener', function(){
+    it('should call listeners', function(){
       var emitter = new Emitter;
       var calls = [];
 
@@ -33,10 +33,33 @@ describe('Emitter', function(){
       });
 
       emitter.emit('foo', 1);
-      emitter.emit('bar', 1);
-      emitter.emit('foo', 2);
+      emitter.emit('bar', 2);
+      emitter.emit('foo', 3);
 
-      calls.should.eql([ 'one', 1, 'two', 1, 'one', 2, 'two', 2 ]);
+      calls.should.eql([ 'one', 1, 'two', 1, 'one', 3, 'two', 3]);
+    })
+  })
+
+  describe('.on(context, event, fn)', function(){
+    it('should call listeners with context', function(){
+      var emitter = new Emitter;
+      var context = {a:2};
+      var calls = [];
+
+      emitter.on('foo', function(val){
+        calls.push('one', val, this.a);
+      });
+
+      emitter.on('foo', function(val){
+        calls.push('two', val, this.a);
+      });
+
+      emitter.emit(context,'foo', 1);
+      emitter.emit(context,'bar', 2);
+      context.a = 4;
+      emitter.emit(context,'foo', 3);
+
+      calls.should.eql([ 'one', 1, 2, 'two', 1, 2, 'one', 3, 4, 'two', 3, 4]);
     })
   })
 
