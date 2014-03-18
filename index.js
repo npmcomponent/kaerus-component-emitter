@@ -25,7 +25,15 @@ Emitter.prototype.listeners = function(event) {
 }
 
 Emitter.prototype.hasListeners = function(event) {
-    return !!this._events[event];
+    return this.listeners(event).length > 0;
+}
+
+Emitter.prototype.hasHandler = function(event,handler) {
+    return this.listeners(event).filter(function(f) {
+        return (f._of || f) !== handler;
+    }).length > 0; 
+
+    return false;
 }
 
 function before(){};
@@ -52,17 +60,17 @@ Emitter.prototype.after = function(event,handler) {
 }
 
 Emitter.prototype.off = function(event,handler) {
-    
+    var listeners;
+
     if(!arguments.length) {
         this._events = {};
     }    
-
-    if(this._events[event]) {
+    else {
         if(!handler) {
-            delete this._events[event];
-        } else {
-            this._events[event] = this._events[event].filter(function(f) {
-                return (f._of || f) !== handler;
+            this._events[event] = null;
+        } else if(this.hasListeners(event)){
+            this._events[event] = this._events[event].filter(function(f){
+                return (f._of ? f._of : f) !== handler;
             });
         }
     }
